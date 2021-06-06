@@ -1,0 +1,105 @@
+env:
+  ECS_ACCOUNT: "9876543210"
+  BUILDFACTORY_ACCOUNT: "0123456789"
+  AWS_REGION: "ap-southeast-2"
+  SERVICE: "toyrobot"
+steps:
+  - label: "information_source: Snapshot Info"
+    command: some commands to show build information in the pipeline page
+    agents:
+      queue: "rea-dev"
+
+  - label: ":gradle: App Build - ${SERVICE}"
+    command: ./gradlew clean build
+    artifact_paths:
+      - "build/libs/*.jar"
+    plugins:
+      - docker-compose#v3.7.0:
+          config: docker-compose.yml
+          run: gradle-build
+    agents:
+      queue: "rea-dev"
+
+  - wait
+
+  - label: ":docker: Build & Push Docker Image - $SNAPSHOT" # $SNAPSHOT will be from post-checkout hook
+    env:
+      AWS_ECR_LOGIN_REGISTRY_IDS: "${BUILDFACTORY_ACCOUNT}"
+    command:
+      - buildkite-agent artifact download build/libs/*.jar .
+      - docker-compose build -no-cache toyrobot
+      - docker tag toyrobot:latest $BUILDFACTORY_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/toyrobot:$SNAPSHOT # $SNAPSHOT will be from post-checkout hook
+      - docker push $BUILDFACTORY_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/toyrobot:$SNAPSHOT
+    branches: master release/*
+    agents:
+      queue: "rea-dev"
+
+  - wait
+
+  - label: ":ecs: Deploy Docker Image - $SNAPSHOT to DEV environment"
+    env:
+      AWS_ECR_LOGIN_REGISTRY_IDS: "${BUILDFACTORY_ACCOUNT}"
+    command:
+      - make deploy dev # Cloudformation change set update image version
+    branches: master release/*
+    agents:
+      queue: "rea-dev"
+
+  - label: ":ecs: Deploy Docker Image - $SNAPSHOT to QA environment"
+    env:
+      AWS_ECR_LOGIN_REGISTRY_IDS: "${BUILDFACTORY_ACCOUNT}"
+    command:
+      - make deploy qa # Cloudformation change set update image version
+    branches: master release/*
+    agents:
+      queue: "rea-dev"
+
+  - block: ":rocket: Release $SERVICE $RELEASE?"
+    prompt: "Release $SERVICE $RELEASE?" # $RELEASE will be from post-checkout hook
+    branches: master release/*
+
+  - label: ":gradle: Release $SERVICE - $RELEASE"
+    command: ./gradlew release
+    branches: master release/*
+    artifact_paths:
+      - "build/libs/*-all.jar"
+    plugins:
+      - docker-compose#v3.7.0:
+          config: docker-compose.yml
+          run: gradle-build
+    agents:
+      queue: "rea-dev"
+
+  - wait
+
+  - label: ":docker: Build & Push Docker Image - $RELEASE" # $RELEASE will be from post-checkout hook
+    command:
+      - buildkite-agent artifact download build/libs/*-all.jar .
+      - docker-compose build -no-cache toyrobot
+      - docker tag toyrobot:latest $BUILDFACTORY_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/toyrobot:$RELEASE # $RELEASE will be from post-checkout hook
+      - docker push $BUILDFACTORY_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/toyrobot:$RELEASE
+    branches: master release/*
+    agents:
+      queue: "rea-dev"
+
+  - block: ":ecs: Deploy Docker Image - $RELEASE to UAT environment?"
+    prompt: "Deploy Docker Image - $RELEASE to UAT environment?"
+    branches: master release/*
+
+  - label: ":ecs: Deploy Docker Image - $RELEASE to UAT environment"
+    command:
+      - make deploy uat # Cloudformation change set update image version
+    branches: master release/*
+    agents:
+      queue: "rea-dev"
+
+  - block: ":red_button: Deploy Docker Image - $RELEASE to PROD environment?"
+    prompt: "Deploy Docker Image - $RELEASE to PROD environment?"
+    branches: master release/*
+
+  - label: ":ecs: Deploy Docker Image - $RELEASE to PROD environment"
+    command:
+      - make deploy prod # Cloudformation change set update image version
+    branches: master release/*
+    agents:
+      queue: "rea-dev"

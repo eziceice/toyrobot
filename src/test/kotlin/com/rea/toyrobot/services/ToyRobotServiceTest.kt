@@ -17,7 +17,7 @@ internal class ToyRobotServiceTest {
 
   @BeforeEach
   fun setup() {
-    toyRobotService = ToyRobotService(Table(5,5))
+    toyRobotService = ToyRobotService(Table(5, 5))
     System.setOut(PrintStream(outContent))
   }
 
@@ -59,4 +59,25 @@ internal class ToyRobotServiceTest {
     assertEquals("3,3,NORTH", outContent.toString().trim())
   }
 
+  @Test
+  fun `should return error result - if unexpected command is entered`() {
+    val input = "xyz12345"
+    toyRobotService.start(Scanner(input))
+
+    assertEquals(
+      "Sorry, the command you just entered is not valid or the robot hasn't been initialized yet.",
+      outContent.toString().trim()
+    )
+  }
+
+  @Test
+  fun `should return error result - if report command is entered first`() {
+    val input = "report"
+    toyRobotService.start(Scanner(input))
+
+    assertEquals(
+      "Sorry, the command you just entered is not valid or the robot hasn't been initialized yet.",
+      outContent.toString().trim()
+    )
+  }
 }

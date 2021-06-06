@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  gradle-build:
+    image: openjdk:16-slim
+
+  toyrobot:
+    image: toyrobot:latest
+    build: .
