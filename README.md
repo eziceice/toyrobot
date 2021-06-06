@@ -1,6 +1,4 @@
-
 # REA Code Challenge - ToyRobot
-
 
 ### Problem
 
@@ -10,6 +8,8 @@ Problem description can be found [here](./PROBLEM.md)
 
 - Java 16
 - Docker
+
+## How to use
 
 ### Run Locally
 
@@ -30,3 +30,7 @@ Problem description can be found [here](./PROBLEM.md)
 ```bash
 ./gradlew clean test
 ```
+- You can find the jacoco test coverage reports here `build/reports/coverage/index.html`
+
+### More Information
+Run `./gradlew tasks` for more supported tasks
