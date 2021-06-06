@@ -30,7 +30,7 @@ tasks.test {
     testLogging {
         events("passed", "skipped", "failed")
     }
-    finalizedBy(tasks.jacocoTestReport, tasks.jacocoTestCoverageVerification)
+    finalizedBy(tasks.jacocoTestCoverageVerification)
     dependsOn(tasks.getByName("ktlintCheck"))
 }
 
@@ -58,5 +58,5 @@ tasks.jacocoTestCoverageVerification {
             }
         }
     }
-    dependsOn(tasks.test)
+    dependsOn(tasks.jacocoTestReport)
 }
