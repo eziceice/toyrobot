@@ -4,8 +4,7 @@
 
 ### Problem
 
-Problem description can be found [here] (PROBLEM.md)
-
+Problem description can be found [here](./PROBLEM.md)
 
 ### Prerequisites
 
