@@ -9,7 +9,7 @@ internal class ToyRobotTest {
     fun `should move if facing to north and facing location is in boundary`() {
         val location = Location(3, 3)
         val facing = Direction.NORTH
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.move()
 
@@ -22,7 +22,7 @@ internal class ToyRobotTest {
     fun `should move if facing to south and facing location is in boundary`() {
         val location = Location(3, 3)
         val facing = Direction.SOUTH
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.move()
 
@@ -35,7 +35,7 @@ internal class ToyRobotTest {
     fun `should move if facing to east and facing location is in boundary`() {
         val location = Location(3, 3)
         val facing = Direction.EAST
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.move()
 
@@ -48,7 +48,7 @@ internal class ToyRobotTest {
     fun `should move if facing to west and facing location is in boundary`() {
         val location = Location(3, 3)
         val facing = Direction.WEST
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.move()
 
@@ -61,7 +61,7 @@ internal class ToyRobotTest {
     fun `should not move if destination is not valid`() {
         val location = Location(0, 3)
         val facing = Direction.WEST
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.move()
 
@@ -74,7 +74,7 @@ internal class ToyRobotTest {
     fun `should rotate to south if facing to west and command is left`() {
         val location = Location(0, 3)
         val facing = Direction.WEST
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.rotate(RotateCommand.LEFT)
 
@@ -85,7 +85,7 @@ internal class ToyRobotTest {
     fun `should rotate to east if facing to south and command is left`() {
         val location = Location(0, 3)
         val facing = Direction.SOUTH
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.rotate(RotateCommand.LEFT)
 
@@ -96,7 +96,7 @@ internal class ToyRobotTest {
     fun `should rotate to north if facing to east and command is left`() {
         val location = Location(0, 3)
         val facing = Direction.EAST
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.rotate(RotateCommand.LEFT)
 
@@ -107,7 +107,7 @@ internal class ToyRobotTest {
     fun `should rotate to west if facing to north and command is left`() {
         val location = Location(0, 3)
         val facing = Direction.NORTH
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.rotate(RotateCommand.LEFT)
 
@@ -118,7 +118,7 @@ internal class ToyRobotTest {
     fun `should rotate to north if facing to west and command is right`() {
         val location = Location(0, 3)
         val facing = Direction.WEST
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.rotate(RotateCommand.RIGHT)
 
@@ -129,7 +129,7 @@ internal class ToyRobotTest {
     fun `should rotate to east if facing to north and command is right`() {
         val location = Location(0, 3)
         val facing = Direction.NORTH
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.rotate(RotateCommand.RIGHT)
 
@@ -140,7 +140,7 @@ internal class ToyRobotTest {
     fun `should rotate to south if facing to east and command is right`() {
         val location = Location(0, 3)
         val facing = Direction.EAST
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.rotate(RotateCommand.RIGHT)
 
@@ -151,7 +151,7 @@ internal class ToyRobotTest {
     fun `should rotate to west if facing to south and command is right`() {
         val location = Location(0, 3)
         val facing = Direction.SOUTH
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         toyRobot.rotate(RotateCommand.RIGHT)
 
@@ -162,7 +162,7 @@ internal class ToyRobotTest {
     fun `should place an obstacle in (1,0)`() {
         val location = Location(0, 0)
         val facing = Direction.EAST
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         val obstacle = toyRobot.placeObject()
 
@@ -174,7 +174,7 @@ internal class ToyRobotTest {
     fun `should return null if the obstacle is out of border`() {
         val location = Location(5, 5)
         val facing = Direction.NORTH
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         val obstacle = toyRobot.placeObject()
 
@@ -186,7 +186,7 @@ internal class ToyRobotTest {
     fun `should find robot at (0,0) and obstacle at (1,0)`() {
         val location = Location(0, 0)
         val facing = Direction.EAST
-        val table = Table(5, 5,)
+        val table = Table(5, 5)
         val toyRobot = ToyRobot(location, facing, table)
         val obstacle = toyRobot.placeObject()
         val tableMap = toyRobot.map()

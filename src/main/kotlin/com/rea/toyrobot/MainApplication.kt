@@ -5,5 +5,5 @@ import com.rea.toyrobot.services.ToyRobotService
 import java.util.Scanner
 
 fun main() {
-    ToyRobotService(Table(5, 5,)).start(Scanner(System.`in`))
+    ToyRobotService(Table(5, 5)).start(Scanner(System.`in`))
 }
