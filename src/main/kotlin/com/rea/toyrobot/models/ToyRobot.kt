@@ -19,6 +19,19 @@ class ToyRobot(
 
     fun report() = println("$location,$facing")
 
+    fun placeObject(): Location? {
+        val obstacleLocation = getDestination()
+        if (obstacleLocation == location) {
+            return null
+        }
+        table.obstacles.add(obstacleLocation)
+        return obstacleLocation
+    }
+
+    fun map(): List<List<String>> {
+        return table.printMap(location)
+    }
+
     private fun rotateLeft() {
         facing = when (facing) {
             Direction.WEST -> Direction.SOUTH
