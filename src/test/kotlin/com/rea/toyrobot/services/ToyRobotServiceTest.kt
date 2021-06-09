@@ -17,7 +17,7 @@ internal class ToyRobotServiceTest {
 
     @BeforeEach
     fun setup() {
-        toyRobotService = ToyRobotService(Table(5, 5))
+        toyRobotService = ToyRobotService(Table(5, 5,))
         System.setOut(PrintStream(outContent))
     }
 
@@ -124,5 +124,34 @@ internal class ToyRobotServiceTest {
             "Sorry, the command you just entered is not valid or the robot hasn't been initialized yet.",
             outContent.toString().trim()
         )
+    }
+
+    @Test
+    fun `should return (0,0,NORTH) result`() {
+        val input = "PLACE 0,0,NORTH\n" +
+            "PLACE_OBJECT\n" +
+            "MOVE\n" +
+            "REPORT"
+        toyRobotService.start(Scanner(input))
+
+        assertEquals("0,0,NORTH", outContent.toString().trim())
+    }
+
+    @Test
+    fun `should return a map with robot at (0,1) and obstacle at (1,0)`() {
+        val input = "PLACE 0,0,EAST\n" +
+            "PLACE_OBJECT\n" +
+            "LEFT\n" +
+            "MOVE\n" +
+            "MAP"
+        toyRobotService.start(Scanner(input))
+
+        val expectedMap = "* * * * *\n" +
+            "* * * * *\n" +
+            "* * * * *\n" +
+            "R * * * *\n" +
+            "* X * * *"
+
+        assertEquals(expectedMap, outContent.toString().trim())
     }
 }
