@@ -59,15 +59,15 @@ internal class ToyRobotServiceTest {
     }
 
     @Test
-    fun `should return (5,5,NORTH) result`() {
-        val input = "PLACE 5,5,NORTH\n" +
+    fun `should return (4,4,NORTH) result`() {
+        val input = "PLACE 4,4,NORTH\n" +
             "MOVE\n" +
             "MOVE\n" +
             "MOVE\n" +
             "REPORT"
         toyRobotService.start(Scanner(input))
 
-        assertEquals("5,5,NORTH", outContent.toString().trim())
+        assertEquals("4,4,NORTH", outContent.toString().trim())
     }
 
     @Test

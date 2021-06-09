@@ -22,7 +22,7 @@ internal class TableTest {
 
     @Test
     fun `should return true if x and y are higher boundary`() {
-        val location = Location(5, 5)
+        val location = Location(4, 4)
         assertTrue(table.isValidLocation(location))
     }
 

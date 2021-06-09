@@ -25,13 +25,17 @@ java {
     targetCompatibility = JavaVersion.VERSION_16
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+}
+
 tasks.test {
     useJUnitPlatform()
     testLogging {
         events("passed", "skipped", "failed")
     }
-    finalizedBy(tasks.jacocoTestCoverageVerification)
-    dependsOn(tasks.getByName("ktlintCheck"))
+    finalizedBy(tasks.jacocoTestReport)
+    // dependsOn(tasks.getByName("ktlintCheck"))
 }
 
 tasks.withType<ShadowJar> {
