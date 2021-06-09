@@ -35,6 +35,7 @@ tasks.test {
         events("passed", "skipped", "failed")
     }
     finalizedBy(tasks.jacocoTestReport)
+    // dependsOn(tasks.getByName("ktlintCheck"))
 }
 
 tasks.withType<ShadowJar> {
