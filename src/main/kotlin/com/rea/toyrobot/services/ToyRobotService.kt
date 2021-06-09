@@ -11,7 +11,7 @@ import java.util.Scanner
 class ToyRobotService(private val table: Table) {
 
     private val placeRegex = Regex("(PLACE) ([0-9]+),([0-9]+),(NORTH|EAST|SOUTH|WEST)")
-    private val actionRegex = Regex("(MOVE|REPORT)")
+    private val actionRegex = Regex("(MOVE|REPORT|PLACE_OBJECT|MAP)")
     private val rotateRegex = Regex("(LEFT|RIGHT)")
     private var toyRobot: ToyRobot? = null
 
@@ -49,6 +49,14 @@ class ToyRobotService(private val table: Table) {
 
             ActionCommand.REPORT -> {
                 toyRobot?.report()
+            }
+
+            ActionCommand.PLACE_OBJECT -> {
+                toyRobot?.placeObject()
+            }
+
+            ActionCommand.MAP -> {
+                toyRobot?.map()
             }
         }
     }

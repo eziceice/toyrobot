@@ -59,15 +59,15 @@ internal class ToyRobotServiceTest {
     }
 
     @Test
-    fun `should return (5,5,NORTH) result`() {
-        val input = "PLACE 5,5,NORTH\n" +
+    fun `should return (4,4,NORTH) result`() {
+        val input = "PLACE 4,4,NORTH\n" +
             "MOVE\n" +
             "MOVE\n" +
             "MOVE\n" +
             "REPORT"
         toyRobotService.start(Scanner(input))
 
-        assertEquals("5,5,NORTH", outContent.toString().trim())
+        assertEquals("4,4,NORTH", outContent.toString().trim())
     }
 
     @Test
@@ -123,6 +123,39 @@ internal class ToyRobotServiceTest {
         assertEquals(
             "Sorry, the command you just entered is not valid or the robot hasn't been initialized yet.",
             outContent.toString().trim()
+        )
+    }
+
+    @Test
+    fun `should return (0,0,NORTH) if the obstacle is at (0,1)`() {
+        val input = "PLACE 0,0,NORTH\n" +
+          "PLACE_OBJECT\n" +
+          "MOVE\n" +
+          "REPORT"
+        toyRobotService.start(Scanner(input))
+
+        assertEquals(
+          "0,0,NORTH",
+          outContent.toString().trim()
+        )
+    }
+
+    @Test
+    fun `should mark robot at (1,0) and obstacle at (0,1)`() {
+        val input = "PLACE 0,0,NORTH\n" +
+          "PLACE_OBJECT\n" +
+          "RIGHT\n" +
+          "MOVE\n" +
+          "MAP"
+        toyRobotService.start(Scanner(input))
+
+        assertEquals(
+          "* * * * *\n" +
+            "* * * * *\n" +
+            "* * * * *\n" +
+            "X * * * *\n" +
+            "* R * * *",
+          outContent.toString().trim()
         )
     }
 }

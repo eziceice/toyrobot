@@ -14,6 +14,10 @@ repositories {
     mavenCentral()
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+}
+
 dependencies {
     implementation(kotlin("stdlib"))
     testImplementation(platform("org.junit:junit-bom:5.7.2"))
@@ -30,8 +34,8 @@ tasks.test {
     testLogging {
         events("passed", "skipped", "failed")
     }
-    finalizedBy(tasks.jacocoTestCoverageVerification)
-    dependsOn(tasks.getByName("ktlintCheck"))
+    finalizedBy(tasks.jacocoTestReport)
+    // dependsOn(tasks.getByName("ktlintCheck"))
 }
 
 tasks.withType<ShadowJar> {

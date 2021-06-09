@@ -157,4 +157,49 @@ internal class ToyRobotTest {
 
         assertEquals(Direction.WEST, toyRobot.facing)
     }
+
+    @Test
+    fun `should place an obstacle at (1,0)`() {
+        val location = Location(0, 0)
+        val facing = Direction.EAST
+        val table = Table(5, 5)
+        val toyRobot = ToyRobot(location, facing, table)
+        val obstacle = toyRobot.placeObject()
+
+        assertEquals(obstacle, table.obstacles[0])
+        assertEquals(1, table.obstacles.size)
+        assertEquals(Location(1,0), obstacle)
+    }
+
+    @Test
+    fun `should return null if obstacle is ous of the boundary`() {
+        val location = Location(4, 4)
+        val facing = Direction.NORTH
+        val table = Table(5, 5)
+        val toyRobot = ToyRobot(location, facing, table)
+        val obstacle = toyRobot.placeObject()
+
+        assertEquals(0, table.obstacles.size)
+        assertEquals(null, obstacle)
+    }
+
+    @Test
+    fun `should return robot at (3,0) and obstacle at (4,0)`() {
+        val location = Location(3, 0)
+        val facing = Direction.NORTH
+        val table = Table(5, 5)
+        val toyRobot = ToyRobot(location, facing, table)
+        val obstacle = Location(4,0)
+        table.obstacles.add(obstacle)
+
+        val tableMap = toyRobot.map()
+
+        assertEquals(5, tableMap.size)
+        tableMap.forEach {
+            assertEquals(5, it.size)
+        }
+        assertEquals("R", tableMap[0][3])
+        assertEquals("X", tableMap[0][4])
+    }
+
 }

@@ -4,7 +4,9 @@ interface Command
 
 enum class ActionCommand : Command {
     MOVE,
-    REPORT
+    REPORT,
+    PLACE_OBJECT,
+    MAP
 }
 
 enum class RotateCommand : Command {
